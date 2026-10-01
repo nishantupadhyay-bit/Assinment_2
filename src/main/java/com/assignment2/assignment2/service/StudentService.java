@@ -34,6 +34,17 @@ public class StudentService {
         students.sort(null);
     }
 
+    public boolean deleteStudent(int rollNumber) {
+        for (User student : students) {
+            if (student.getRollNumber() == rollNumber) {
+                students.remove(student);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public ArrayList<User> getStudents() {
         return new ArrayList<>(students);
     }
