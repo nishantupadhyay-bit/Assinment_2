@@ -36,10 +36,20 @@ public class StudentService {
         students.sort(null);
     }
 
+    public boolean deleteStudent(int rollNumber) {
+        for (User student : students) {
+            if (student.getRollNumber() == rollNumber) {
+                students.remove(student);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public synchronized ArrayList<User> getStudents() {
         return new ArrayList<>(students);
     }
-
     public void sortStudents(SortType sortType, SortOrder sortOrder) {
         Comparator<User> comparator;
 
