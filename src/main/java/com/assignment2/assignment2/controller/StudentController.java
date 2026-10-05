@@ -1,5 +1,7 @@
 package com.assignment2.assignment2.controller;
 
+import com.assignment2.assignment2.enums.SortOrder;
+import com.assignment2.assignment2.enums.SortType;
 import com.assignment2.assignment2.model.User;
 import com.assignment2.assignment2.service.StudentService;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,14 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList<User>> getStudents() {
+    public ResponseEntity<ArrayList<User>> getStudents(
+            @RequestParam(required = false) SortType sortType,
+            @RequestParam(required = false) SortOrder sortOrder) {
+
+        if (sortType != null && sortOrder != null) {
+            studentService.sortStudents(sortType, sortOrder);
+        }
+
         return ResponseEntity.ok(studentService.getStudents());
     }
 
