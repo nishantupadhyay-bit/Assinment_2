@@ -30,6 +30,9 @@ public class StudentController {
             @RequestParam(required = false) SortType sortType,
             @RequestParam(required = false) SortOrder sortOrder) {
 
+        System.out.println("sortType = " + sortType);
+        System.out.println("sortOrder = " + sortOrder);
+
         if (sortType != null && sortOrder != null) {
             studentService.sortStudents(sortType, sortOrder);
         }
