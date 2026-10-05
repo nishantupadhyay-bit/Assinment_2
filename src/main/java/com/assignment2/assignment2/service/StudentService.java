@@ -50,6 +50,11 @@ public class StudentService {
     }
 
     public void sortStudents(SortType sortType, SortOrder sortOrder) {
+
+        System.out.println("Inside sortStudents");
+        System.out.println("sortType = " + sortType);
+        System.out.println("sortOrder = " + sortOrder);
+
         Comparator<User> comparator;
 
         switch (sortType) {
@@ -74,6 +79,7 @@ public class StudentService {
         }
 
         if (sortOrder == SortOrder.DESC) {
+            System.out.println("Reversing comparator");
             comparator = comparator.reversed();
         }
 
