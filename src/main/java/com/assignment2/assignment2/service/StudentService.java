@@ -1,3 +1,4 @@
+
 package com.assignment2.assignment2.service;
 
 import com.assignment2.assignment2.model.User;
@@ -5,18 +6,20 @@ import com.assignment2.assignment2.validation.StudentValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class StudentService {
 
-    private final ArrayList<User> students = new ArrayList<>();
+    private final List<User> students = Collections.synchronizedList(new ArrayList<>());
     private final StudentValidator studentValidator;
 
     public StudentService(StudentValidator studentValidator) {
         this.studentValidator = studentValidator;
     }
 
-    public void addStudent(User user) {
+    public synchronized void addStudent(User user) {
         studentValidator.validate(user);
 
         if (isRollNumberExists(user.getRollNumber())) {
@@ -27,7 +30,7 @@ public class StudentService {
         students.sort(null);
     }
 
-    public ArrayList<User> getStudents() {
+    public synchronized ArrayList<User> getStudents() {
         return new ArrayList<>(students);
     }
 
