@@ -1,3 +1,4 @@
+
 package com.assignment2.assignment2.service;
 
 import com.assignment2.assignment2.comparator.AddressComparator;
@@ -11,6 +12,7 @@ import com.assignment2.assignment2.validation.StudentValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 @Service
@@ -23,7 +25,7 @@ public class StudentService {
         this.studentValidator = studentValidator;
     }
 
-    public void addStudent(User user) {
+    public synchronized void addStudent(User user) {
         studentValidator.validate(user);
 
         if (isRollNumberExists(user.getRollNumber())) {
@@ -34,7 +36,7 @@ public class StudentService {
         students.sort(null);
     }
 
-    public boolean deleteStudent(int rollNumber) {
+    public synchronized boolean deleteStudent(int rollNumber) {
         for (User student : students) {
             if (student.getRollNumber() == rollNumber) {
                 students.remove(student);
@@ -45,16 +47,11 @@ public class StudentService {
         return false;
     }
 
-    public ArrayList<User> getStudents() {
+    public synchronized ArrayList<User> getStudents() {
         return new ArrayList<>(students);
     }
 
-    public void sortStudents(SortType sortType, SortOrder sortOrder) {
-
-        System.out.println("Inside sortStudents");
-        System.out.println("sortType = " + sortType);
-        System.out.println("sortOrder = " + sortOrder);
-
+    public synchronized void sortStudents(SortType sortType, SortOrder sortOrder) {
         Comparator<User> comparator;
 
         switch (sortType) {
@@ -79,7 +76,6 @@ public class StudentService {
         }
 
         if (sortOrder == SortOrder.DESC) {
-            System.out.println("Reversing comparator");
             comparator = comparator.reversed();
         }
 
