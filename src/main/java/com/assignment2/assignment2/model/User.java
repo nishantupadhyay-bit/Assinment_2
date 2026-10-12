@@ -1,11 +1,10 @@
-
 package com.assignment2.assignment2.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class User {
+public class User implements Comparable<User> {
 
     private String name;
     private int age;
@@ -67,5 +66,16 @@ public class User {
         }
 
         this.courses = Collections.unmodifiableList(new ArrayList<>(courses));
+    }
+
+    @Override
+    public int compareTo(User other) {
+        int nameComparison = this.name.compareToIgnoreCase(other.name);
+
+        if (nameComparison != 0) {
+            return nameComparison;
+        }
+
+        return Integer.compare(this.rollNumber, other.rollNumber);
     }
 }
