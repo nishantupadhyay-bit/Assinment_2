@@ -45,23 +45,30 @@ public class StudentValidator {
         }
     }
 
-    private void validateCourses(Iterable<Courses> courses) {
+
+    private void validateCourses(Iterable<String> courses) {
         if (courses == null) {
             throw new IllegalArgumentException("Courses cannot be null");
         }
 
-        HashSet<Courses> uniqueCourses = new HashSet<>();
+        java.util.Set<String> validCourses = new java.util.HashSet<>(
+                java.util.Arrays.asList("A", "B", "C", "D", "E", "F")
+        );
 
-        for (Courses course : courses) {
-            if (course == null) {
-                throw new IllegalArgumentException("Course cannot be null");
+        java.util.Set<String> selectedCourses = new java.util.HashSet<>();
+
+        for (String course : courses) {
+            if (course == null || !validCourses.contains(course)) {
+                throw new IllegalArgumentException("Invalid course");
             }
 
-            uniqueCourses.add(course);
+            if (!selectedCourses.add(course)) {
+                throw new IllegalArgumentException("Duplicate courses are not allowed");
+            }
         }
 
-        if (uniqueCourses.size() != 4) {
-            throw new IllegalArgumentException("Student must select exactly 4 different courses");
+        if (selectedCourses.size() != 4) {
+            throw new IllegalArgumentException("Exactly 4 different courses must be selected");
         }
     }
 }
